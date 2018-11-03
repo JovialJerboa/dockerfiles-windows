@@ -21,9 +21,11 @@ workflow buildContainers {
         [string]$ScriptPath
         ,[string[]]$Variants
     )
-    
     foreach -parallel ($variant in $Variants) {
-        buildContainer -ScriptPath $ScriptPath -Variant $variant
+        buildContainer -ScriptPath $ScriptPath -Variant $variant -ErrorVariable buildContainerError
+        if ($null -ne $buildContainerError) {
+            Write-Error $buildContainerError
+        }
     }
 }
 
