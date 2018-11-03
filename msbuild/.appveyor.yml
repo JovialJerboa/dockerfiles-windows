@@ -3,9 +3,10 @@ version: 1.0.{build}
 image: Previous Visual Studio 2017
 
 build_script:
-    - ps: >-
-        cd msbuild
-        .\build.ps1
+- ps: >-
+    cd msbuild
+    .\build-parallel.ps1
 
 cache:
-    - C:\ProgramData\Docker  # preserve the docker folder between builds
+- C:\ProgramData\Docker  # preserve the docker folder between builds
+    
