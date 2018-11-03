@@ -1,9 +1,15 @@
+param (
+    [int]$ThrottleLimit = 0
+)
+
+# Define buildContainers workflow
 workflow buildContainers {
     param (
         [string]$ScriptPath
         ,[string[]]$Variants
+        ,[int]$ThrottleLimit
     )
-    foreach -parallel ($variant in $Variants) {
+    foreach -parallel -throttle $ThrottleLimit ($variant in $Variants) {
         InlineScript {
             Write-Output "Building $Using:variant"
             $variantPath = "$Using:ScriptPath/$Using:variant"
@@ -24,7 +30,7 @@ $variants = Get-ChildItem | Where-Object {$_.PSIsContainer} | Foreach-Object {$_
 $scriptPath = $PSScriptRoot
 
 # Run
-buildContainers -ScriptPath $scriptPath -Variants $variants -ErrorVariable +errors
+buildContainers -ScriptPath $scriptPath -Variants $variants -ThrottleLimit $ThrottleLimit -ErrorVariable +errors
 
 # Error handling
 if ($errors.Count -ne 0) {
