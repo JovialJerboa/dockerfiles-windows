@@ -1,30 +1,20 @@
-function buildContainer {
-    param (
-        [string]$ScriptPath
-        ,[string]$Variant
-        ,[bool]$PushToRepository = $false
-    )
-    Write-Information "Building $Variant"
-    $variantPath = "$ScriptPath/$Variant"
-
-    # Build docker image
-    docker build -t "lflanagan/msbuild:$Variant" -f "$variantPath/Dockerfile" "$variantPath"
-
-    # Push image(s) to docker hub
-    if ($true -eq $PushToRepository){
-        docker push "lflanagan/msbuild:$Variant"
-    }
-}
-
 workflow buildContainers {
     param (
         [string]$ScriptPath
         ,[string[]]$Variants
     )
     foreach -parallel ($variant in $Variants) {
-        buildContainer -ScriptPath $ScriptPath -Variant $variant -ErrorVariable buildContainerError
-        if ($null -ne $buildContainerError) {
-            Write-Error $buildContainerError
+        InlineScript {
+            Write-Output "Building $Using:variant"
+            $variantPath = "$Using:ScriptPath/$Using:variant"
+        
+            # Build docker image
+            docker build -t "lflanagan/msbuild:$Using:variant" -f "$variantPath/Dockerfile" "$variantPath"
+        
+            # Push image(s) to docker hub
+            if ($true -eq $PushToRepository){
+                docker push "lflanagan/msbuild:$Using:variant"
+            }
         }
     }
 }
