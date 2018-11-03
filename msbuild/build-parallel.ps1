@@ -21,7 +21,7 @@ workflow buildContainers {
         [string]$ScriptPath
         ,[string[]]$Variants
     )
-
+    
     foreach -parallel ($variant in $Variants) {
         buildContainer -ScriptPath $ScriptPath -Variant $variant
     }
@@ -34,4 +34,7 @@ $variants = Get-ChildItem | Where-Object {$_.PSIsContainer} | Foreach-Object {$_
 $scriptPath = $PSScriptRoot
 
 # Run!
-buildContainers -ScriptPath $scriptPath -Variants $variants
+buildContainers -ScriptPath $scriptPath -Variants $variants -ErrorVariable errors
+if (($env:APPVEYOR -eq $true) -and ($errors.Count -ne 0)) {
+    $host.SetShouldExit($LastExitCode)
+}
