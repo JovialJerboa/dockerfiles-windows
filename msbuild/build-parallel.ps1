@@ -12,9 +12,7 @@ workflow buildContainers {
             docker build -t "lflanagan/msbuild:$Using:variant" -f "$variantPath/Dockerfile" "$variantPath"
         
             # Push image(s) to docker hub
-            if ($true -eq $PushToRepository){
-                docker push "lflanagan/msbuild:$Using:variant"
-            }
+            if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$Using:variant" }
         }
     }
 }
@@ -25,8 +23,14 @@ $variants = Get-ChildItem | Where-Object {$_.PSIsContainer} | Foreach-Object {$_
 # Get script path
 $scriptPath = $PSScriptRoot
 
-# Run!
-buildContainers -ScriptPath $scriptPath -Variants $variants -ErrorVariable errors
-if (($env:APPVEYOR -eq $true) -and ($errors.Count -ne 0)) {
-    $host.SetShouldExit($LastExitCode)
+# Run
+buildContainers -ScriptPath $scriptPath -Variants $variants -ErrorVariable +errors
+
+# Error handling
+if ($errors.Count -ne 0) {
+    Write-Output "Errors found."
+    Write-Output $errors
+
+    # Set the exit code to be greater than 0 so the build is marked as failed in AppVeyor
+    if ($env:APPVEYOR -eq $true) { $host.SetShouldExit(1) }
 }
