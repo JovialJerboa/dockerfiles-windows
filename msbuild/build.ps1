@@ -21,7 +21,7 @@ workflow buildContainers {
                 Write-Output "Building $tag"
 
                 # Build docker image
-                docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
+                docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath
 
                 # Push image(s) to docker hub
                 if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
@@ -94,6 +94,9 @@ $scriptPath = $PSScriptRoot
 
 # Run
 buildContainers -ScriptPath $scriptPath -BuildDefinitions $buildDefinitions -ThrottleLimit $ThrottleLimit -ErrorVariable +errors
+
+# Build output
+docker images lflanagan/msbuild | Select-Object -skip 1 | Sort-Object
 
 # Error handling
 if ($errors.Count -ne 0) {
