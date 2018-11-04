@@ -1,0 +1,28 @@
+[
+  {
+    "configurations": [
+      "netfx",
+      "netfx-webtools",
+      "netfx-dotnet",
+      "netfx-dotnet-webtools"
+    ],
+    "netfx-tag": "4.7.2-sdk-20181009-windowsservercore-ltsc2016",
+    "netfx-name": "4.7.2",
+    "dotnet-tag": "2.1-sdk-nanoserver-1709",
+    "dotnet-name": "2.1",
+    "MSBuildSDKsPath" : "C:\\Program Files\\dotnet\\sdk\\2.1.403\\Sdks"
+  },
+  {
+    "configurations": [
+      "netfx",
+      "netfx-webtools",
+      "netfx-dotnet",
+      "netfx-dotnet-webtools"
+    ],
+    "netfx-tag": "4.7.2-sdk-20181009-windowsservercore-ltsc2016",
+    "netfx-name": "4.7.2",
+    "dotnet-tag": "1.1-sdk",
+    "dotnet-name": "1.1",
+    "MSBuildSDKsPath" : "C:\\Program Files\\dotnet\\sdk\\1.1.11\\Sdks"
+  }
+]
