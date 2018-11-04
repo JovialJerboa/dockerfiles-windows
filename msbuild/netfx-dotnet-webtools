@@ -5,6 +5,7 @@ ARG NETFX_TAG
 FROM microsoft/dotnet:${DOTNET_TAG} AS dotnet
 
 FROM microsoft/dotnet-framework:${NETFX_TAG}
+ARG MSBUILD_SDKS_PATH
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # see https://github.com/Microsoft/msbuild/issues/1697
