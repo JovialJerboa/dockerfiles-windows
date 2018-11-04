@@ -1,0 +1,33 @@
+{
+  "dotnetVersions": [
+    {
+      "name": "2.2",
+      "tag": "2.2.100-preview3-sdk-nanoserver-1709",
+      "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\2.2.100-preview3-009430\\Sdks"
+    },
+    {
+      "name": "2.1",
+      "tag": "2.1-sdk-nanoserver-1709",
+      "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\2.1.403\\Sdks"
+    },
+    {
+      "name": "1.1",
+      "tag": "1.1-sdk",
+      "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\1.1.11\\Sdks"
+    }
+  ],
+  "netFxVersions": [
+    {
+      "name": "4.7.2",
+      "tag": "4.7.2-sdk-20181009-windowsservercore-ltsc2016"
+    },
+    {
+      "name": "4.7.1",
+      "tag": "4.7.1-sdk-20181009-windowsservercore-ltsc2016"
+    },
+    {
+      "name": "3.5",
+      "tag": "3.5-sdk-20181009-windowsservercore-ltsc2016"
+    }
+  ]
+}

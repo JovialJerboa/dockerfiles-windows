@@ -6,7 +6,7 @@ build_script:
 - ps: >-
     cd msbuild
 
-    .\build-parallel.ps1
+    .\build.ps1
 
 cache:
 - C:\ProgramData\Docker\windowsfilter  # preserve the docker folder between builds
