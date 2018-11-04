@@ -1,5 +1,5 @@
 param (
-    [int]$ThrottleLimit = 0
+    [int]$ThrottleLimit = 1
 )
 
 # Define buildContainers workflow
