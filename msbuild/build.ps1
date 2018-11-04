@@ -6,86 +6,80 @@ param (
 workflow buildContainers {
     param (
         [string]$ScriptPath
-        ,[object[]]$BuildDefinitions
-        ,[int]$ThrottleLimit
+        , [object]$BuildDefinitions
+        , [int]$ThrottleLimit
     )
-    foreach -parallel -throttle $ThrottleLimit ($buildDefinition in $BuildDefinitions) {
+    foreach -parallel -throttle $ThrottleLimit ($netFxVersion in $BuildDefinitions.netFxVersions) {
         parallel {
-            $configurations = $buildDefinition.configurations
-
             # netfx
-            if ($true -eq $configurations.Contains("netfx")) {
-                sequence {
-                    # Variables
-                    $dockerFilePath = "$ScriptPath\netfx"
-                    $tag = "netfx-$($buildDefinition.'netfx-name')"
-                    $netfxTag = $buildDefinition.'netfx-tag'
+            sequence {
+                # Variables
+                $dockerFilePath = "$ScriptPath\netfx"
+                $tag = "netfx-$($netFxVersion.'name')"
+                $netfxTag = $netFxVersion.'tag'
 
-                    Write-Output "Building $tag"
+                Write-Output "Building $tag"
 
-                    # Build docker image
-                    docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
+                # Build docker image
+                docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
 
-                    # Push image(s) to docker hub
-                    if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
-                }
+                # Push image(s) to docker hub
+                if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
             }
 
             # netfx-webtools
-            if ($true -eq $configurations.Contains("netfx-webtools")) {
-                sequence {
-                    # Variables
-                    $dockerFilePath = "$ScriptPath\netfx-webtools"
-                    $tag = "netfx-$($buildDefinition.'netfx-name')-webtools"
-                    $netfxTag = $buildDefinition.'netfx-tag'
+            sequence {
+                # Variables
+                $dockerFilePath = "$ScriptPath\netfx-webtools"
+                $tag = "netfx-$($netFxVersion.'name')-webtools"
+                $netfxTag = $netFxVersion.'tag'
 
-                    Write-Output "Building $tag"
+                Write-Output "Building $tag"
 
-                    # Build docker image
-                    docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
+                # Build docker image
+                docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
 
-                    # Push image(s) to docker hub
-                    if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
-                }
+                # Push image(s) to docker hub
+                if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
             }
 
-            # netfx-dotnet
-            if ($true -eq $configurations.Contains("netfx-dotnet")) {
-                sequence {
-                    # Variables
-                    $dockerFilePath = "$ScriptPath\netfx-dotnet"
-                    $tag = "netfx-$($buildDefinition.'netfx-name')-dotnet-$($buildDefinition.'dotnet-name')"
-                    $netfxTag = $buildDefinition.'netfx-tag'
-                    $dotnetTag = $buildDefinition.'dotnet-tag'
-                    $MSBuildSDKsPath = $buildDefinition.'MSBuildSDKsPath'
+            foreach -parallel -throttle $ThrottleLimit ($dotnetVersion in $BuildDefinitions.dotnetVersions) {
+                parallel {
+                    # netfx-dotnet
+                    sequence {
+                        # Variables
+                        $dockerFilePath = "$ScriptPath\netfx-dotnet"
+                        $tag = "netfx-$($netFxVersion.'name')-dotnet-$($dotnetVersion.'name')"
+                        $netfxTag = $netFxVersion.'tag'
+                        $dotnetTag = $dotnetVersion.'tag'
+                        $MSBuildSDKsPath = $dotnetVersion.'MSBuildSDKsPath'
 
-                    Write-Output "Building $tag"
+                        Write-Output "Building $tag"
 
-                    # Build docker image
-                    docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath
+                        # Build docker image
+                        docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath
 
-                    # Push image(s) to docker hub
-                    if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
-                }
-            }
+                        # Push image(s) to docker hub
+                        if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                    }
 
-            # netfx-dotnet-webtools
-            if ($true -eq $configurations.Contains("netfx-dotnet-webtools")) {
-                sequence {
-                    # Variables
-                    $dockerFilePath = "$ScriptPath\netfx-dotnet-webtools"
-                    $tag = "netfx-$($buildDefinition.'netfx-name')-dotnet-$($buildDefinition.'dotnet-name')-webtools"
-                    $netfxTag = $buildDefinition.'netfx-tag'
-                    $dotnetTag = $buildDefinition.'dotnet-tag'
-                    $MSBuildSDKsPath = $buildDefinition.'MSBuildSDKsPath'
+                    # netfx-dotnet-webtools
+                    sequence {
+                        # Variables
+                        $dockerFilePath = "$ScriptPath\netfx-dotnet-webtools"
+                        $tag = "netfx-$($netFxVersion.'name')-dotnet-$($dotnetVersion.'name')-webtools"
+                        $netfxTag = $netFxVersion.'tag'
+                        $dotnetTag = $dotnetVersion.'tag'
+                        $MSBuildSDKsPath = $dotnetVersion.'MSBuildSDKsPath'
 
-                    Write-Output "Building $tag"
+                        Write-Output "Building $tag"
 
-                    # Build docker image
-                    docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
+                        # Build docker image
+                        docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
 
-                    # Push image(s) to docker hub
-                    if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                        # Push image(s) to docker hub
+                        if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                    }
                 }
             }
         }
