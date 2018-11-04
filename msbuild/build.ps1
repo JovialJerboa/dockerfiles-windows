@@ -25,6 +25,9 @@ workflow buildContainers {
 
                 # Push image(s) to docker hub
                 if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+
+                # Clean-up
+                if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
             }
 
             # netfx-webtools
@@ -41,6 +44,9 @@ workflow buildContainers {
 
                 # Push image(s) to docker hub
                 if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+
+                # Clean-up
+                if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
             }
 
             foreach -parallel -throttle $ThrottleLimit ($dotnetVersion in $BuildDefinitions.dotnetVersions) {
@@ -61,6 +67,9 @@ workflow buildContainers {
 
                         # Push image(s) to docker hub
                         if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+
+                        # Clean-up
+                        if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
                     }
 
                     # netfx-dotnet-webtools
@@ -79,6 +88,9 @@ workflow buildContainers {
 
                         # Push image(s) to docker hub
                         if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+
+                        # Clean-up
+                        if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
                     }
                 }
             }
