@@ -4,7 +4,8 @@
 MSBuild toolchain containers to fit my needs
 
 ## Referenced Containers
-* 
+* [microsoft/dotnet-framework](https://hub.docker.com/r/microsoft/dotnet-framework)
+* [microsoft/dotnet](https://hub.docker.com/r/microsoft/dotnet)
 
 ## References
 * Most of these [Dockerfiles](https://github.com/sixeyed/dockerfiles-windows/tree/master/msbuild) are based on the work of [Elton Stoneman](https://blog.sixeyed.com)
