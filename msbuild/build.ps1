@@ -1,13 +1,15 @@
 param (
-    [int]$ThrottleLimit = 1
+    [int]$ThrottleLimit = 0,
+    [boolean]$PushToRegistry = $false
 )
 
 # Define buildContainers workflow
 workflow buildContainers {
     param (
         [string]$ScriptPath
-        , [object]$BuildDefinitions
-        , [int]$ThrottleLimit
+        ,[object]$BuildDefinitions
+        ,[int]$ThrottleLimit
+        ,[boolean]$PushToRegistry
     )
     foreach -parallel -throttle $ThrottleLimit ($netFxVersion in $BuildDefinitions.netFxVersions) {
         parallel {
@@ -24,7 +26,7 @@ workflow buildContainers {
                 docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath
 
                 # Push image(s) to docker hub
-                if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                if ($true -eq $PushToRegistry) { docker push "lflanagan/msbuild:$tag" }
 
                 # Clean-up
                 if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
@@ -43,7 +45,7 @@ workflow buildContainers {
                 docker build --build-arg NETFX_TAG=$netfxTag -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
 
                 # Push image(s) to docker hub
-                if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                if ($true -eq $PushToRegistry) { docker push "lflanagan/msbuild:$tag" }
 
                 # Clean-up
                 if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
@@ -66,7 +68,7 @@ workflow buildContainers {
                         docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath
 
                         # Push image(s) to docker hub
-                        if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                        if ($true -eq $PushToRegistry) { docker push "lflanagan/msbuild:$tag" }
 
                         # Clean-up
                         if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
@@ -87,7 +89,7 @@ workflow buildContainers {
                         docker build --build-arg NETFX_TAG=$netfxTag --build-arg DOTNET_TAG=$dotnetTag --build-arg MSBUILD_SDKS_PATH=$MSBuildSDKsPath -t "lflanagan/msbuild:$tag" -f $dockerFilePath $ScriptPath 
 
                         # Push image(s) to docker hub
-                        if ($true -eq $PushToRepository) { docker push "lflanagan/msbuild:$tag" }
+                        if ($true -eq $PushToRegistry) { docker push "lflanagan/msbuild:$tag" }
 
                         # Clean-up
                         if ($env:APPVEYOR -eq $true) { docker rmi $(docker images -f dangling=true -q) }
@@ -105,7 +107,7 @@ $buildDefinitions = Get-Content .\build-definitions.json | ConvertFrom-Json
 $scriptPath = $PSScriptRoot
 
 # Run
-buildContainers -ScriptPath $scriptPath -BuildDefinitions $buildDefinitions -ThrottleLimit $ThrottleLimit -ErrorVariable +errors
+buildContainers -ScriptPath $scriptPath -BuildDefinitions $buildDefinitions -ThrottleLimit $ThrottleLimit -PushToRegistry $PushToRegistry -ErrorVariable +errors
 
 # Build output
 docker images lflanagan/msbuild | Select-Object -skip 1 | Sort-Object
