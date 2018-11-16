@@ -1,3 +1,18 @@
+trigger:
+  branches:
+    include:
+    - master
+    - releases/*
+    - azure-pipelines-testing/*
+    
+pr:
+  branches:
+    include:
+    - master
+    - releases/*
+    exclude:
+    - releases/old*
+
 pool:
   vmImage: 'vs2017-win2016'
 
@@ -8,6 +23,13 @@ variables:
 steps:
 - powershell: "pwd; Get-Variable"
   displayName: 'Testing some powershell...'
+  workingDirectory: $(Build.SourcesDirectory)\msbuild
+
+- task: PowerShell@2
+  displayName: 'testing powershell'
+  inputs:
+    script: 'pwd; ls'
+    workingDirectory: $(Build.SourcesDirectory)\msbuild
 
 - task: PowerShell@2
   displayName: 'docker build'
