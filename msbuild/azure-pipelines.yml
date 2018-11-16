@@ -36,6 +36,6 @@ steps:
   displayName: 'docker build'
   inputs:
     targetType: 'filePath'
-    filePath: Build-SingleContainer.ps1
+    filePath: $(Build.SourcesDirectory)\msbuild\Build-SingleContainer.ps1
     arguments: '-ContainerTag "netfx-4.7.2-dotnet-2.1-webtools" -PushToRegistry $false'
     workingDirectory: $(Build.SourcesDirectory)\msbuild
