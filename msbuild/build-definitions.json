@@ -1,4 +1,33 @@
 {
+  "containerTags": [
+    "netfx-3.5",
+    "netfx-3.5-webtools",
+    "netfx-3.5-dotnet-1.1",
+    "netfx-3.5-dotnet-1.1-webtools",
+    "netfx-3.5-dotnet-2.1",
+    "netfx-3.5-dotnet-2.1-webtools",
+    "netfx-3.5-dotnet-2.2",
+    "netfx-3.5-dotnet-2.2-webtools",
+
+    "netfx-4.7.1",
+    "netfx-4.7.1-webtools",
+    "netfx-4.7.1-dotnet-1.1",
+    "netfx-4.7.1-dotnet-1.1-webtools",
+    "netfx-4.7.1-dotnet-2.1",
+    "netfx-4.7.1-dotnet-2.1-webtools",
+    "netfx-4.7.1-dotnet-2.2",
+    "netfx-4.7.1-dotnet-2.2-webtools",
+
+    "netfx-4.7.2",
+    "netfx-4.7.2-webtools",
+    "netfx-4.7.2-dotnet-1.1",
+    "netfx-4.7.2-dotnet-1.1-webtools",
+    "netfx-4.7.2-dotnet-2.1",
+    "netfx-4.7.2-dotnet-2.1-webtools",
+    "netfx-4.7.2-dotnet-2.2",
+    "netfx-4.7.2-dotnet-2.2-webtools"
+  ],
+
   "dotnetVersions": [
     {
       "name": "2.2",
@@ -16,6 +45,7 @@
       "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\1.1.11\\Sdks"
     }
   ],
+  
   "netFxVersions": [
     {
       "name": "4.7.2",
