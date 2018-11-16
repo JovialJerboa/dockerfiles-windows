@@ -19,7 +19,7 @@ $arguments = @{
 }
 
 # Build
-. "$using:ScriptPath\Build-Container.ps1" @arguments
+. "$scriptPath\Build-Container.ps1" @arguments
 
 # Error handling
 if ($LASTEXITCODE -ne 0) {
