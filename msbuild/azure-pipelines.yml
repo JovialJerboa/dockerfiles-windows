@@ -4,7 +4,7 @@ trigger:
     - master
     - releases/*
     - azure-pipelines-testing/*
-    
+
 pr:
   branches:
     include:
@@ -24,6 +24,9 @@ steps:
 - powershell: "pwd; Get-Variable"
   displayName: 'Testing some powershell...'
   workingDirectory: $(Build.SourcesDirectory)\msbuild
+
+- powershell: "Write-Host 'Hello World'"
+  displayName: 'Hello World'
 
 - task: PowerShell@2
   displayName: 'testing powershell'
