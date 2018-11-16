@@ -21,21 +21,10 @@ variables:
   pushToRegistry: netfx-4.7.2-dotnet-2.1-webtools
 
 steps:
-- powershell: "Write-Host 'Hello World'"
-  displayName: 'Hello World'
-  workingDirectory: $(Build.SourcesDirectory)\msbuild
-
-- task: PowerShell@2
-  displayName: 'testing powershell'
-  inputs:
-    targetType: 'inline'
-    script: 'pwd; ls'
-    workingDirectory: $(Build.SourcesDirectory)\msbuild
-
 - task: PowerShell@2
   displayName: 'docker build'
   inputs:
     targetType: 'filePath'
     filePath: $(Build.SourcesDirectory)\msbuild\Build-SingleContainer.ps1
-    arguments: '-ContainerTag "netfx-4.7.2-dotnet-2.1-webtools" -PushToRegistry $false'
+    arguments: '-ContainerTag "netfx-4.7.2-dotnet-2.1-webtools"'
     workingDirectory: $(Build.SourcesDirectory)\msbuild
