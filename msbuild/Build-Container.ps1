@@ -7,12 +7,15 @@ param (
     ,[string]$DotNetName = $null
     ,[string]$DotNetTag = $null
     ,[string]$MSBuildSDKsPath = $null
-    ,[boolean]$PushToRegistry = $false
+    ,[switch]$NoCache
+    ,[switch]$PushToRegistry
 )
 
 # Variables
 $DockerFilePath = "$BuildRootPath\$DockerFile"
-$dockerBuildArgs = @("build","--build-arg","NETFX_TAG=$NetFxTag")
+$dockerBuildArgs = @("build")
+if ($NoCache) { $dockerBuildArgs += "--no-cache" }
+$dockerBuildArgs += "--build-arg","NETFX_TAG=$NetFxTag"
 
 # Add dotnet components
 if ($null -ne $DotNetTag) {
@@ -26,7 +29,8 @@ if ($null -ne $DotNetTag) {
 }
 
 # Finalise command
-$dockerBuildArgs += "--tag","lflanagan/msbuild:$ContainerTag","-f","$DockerFilePath","$BuildRootPath"
+$dockerBuildArgs += "--tag","lflanagan/msbuild:$ContainerTag"
+$dockerBuildArgs += "-f","$DockerFilePath","$BuildRootPath"
 
 Write-Output "Building $ContainerTag"
 

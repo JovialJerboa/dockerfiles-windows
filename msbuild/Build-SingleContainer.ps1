@@ -1,6 +1,7 @@
 param (
     [Parameter(Mandatory=$true)][string]$ContainerTag
-    ,[boolean]$PushToRegistry = $false
+    ,[switch]$NoCache
+    ,[switch]$PushToRegistry
 )
 
 # Get build arguments
@@ -15,6 +16,7 @@ $arguments = @{
     DotNetName = $buildParameters.DotNetName
     DotNetTag = $buildParameters.DotNetTag
     MSBuildSDKsPath = $buildParameters.MSBuildSDKsPath
+    NoCache = $NoCache
     PushToRegistry = $PushToRegistry
 }
 
