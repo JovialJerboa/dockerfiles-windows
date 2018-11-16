@@ -1,15 +1,63 @@
 {
+  "containerTags": [
+    "netfx-3.5",
+    "netfx-3.5-webtools",
+    "netfx-3.5-dotnet-1.1",
+    "netfx-3.5-dotnet-1.1-webtools",
+    "netfx-3.5-dotnet-2.1",
+    "netfx-3.5-dotnet-2.1-webtools",
+    "netfx-3.5-dotnet-2.2",
+    "netfx-3.5-dotnet-2.2-webtools",
+
+    "netfx-4.7.1",
+    "netfx-4.7.1-webtools",
+    "netfx-4.7.1-dotnet-1.1",
+    "netfx-4.7.1-dotnet-1.1-webtools",
+    "netfx-4.7.1-dotnet-2.1",
+    "netfx-4.7.1-dotnet-2.1-webtools",
+    "netfx-4.7.1-dotnet-2.2",
+    "netfx-4.7.1-dotnet-2.2-webtools",
+
+    "netfx-4.7.2",
+    "netfx-4.7.2-webtools",
+    "netfx-4.7.2-dotnet-1.1",
+    "netfx-4.7.2-dotnet-1.1-webtools",
+    "netfx-4.7.2-dotnet-2.1",
+    "netfx-4.7.2-dotnet-2.1-webtools",
+    "netfx-4.7.2-dotnet-2.2",
+    "netfx-4.7.2-dotnet-2.2-webtools"
+  ],
+
   "dotnetVersions": [
+    {
+      "name": "2.2",
+      "tag": "2.2.100-preview3-sdk-nanoserver-1709",
+      "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\2.2.100-preview3-009430\\Sdks"
+    },
     {
       "name": "2.1",
       "tag": "2.1-sdk-nanoserver-1709",
       "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\2.1.403\\Sdks"
+    },
+    {
+      "name": "1.1",
+      "tag": "1.1-sdk",
+      "MSBuildSDKsPath": "C:\\Program Files\\dotnet\\sdk\\1.1.11\\Sdks"
     }
   ],
+  
   "netFxVersions": [
+    {
+      "name": "4.7.2",
+      "tag": "4.7.2-sdk-20181009-windowsservercore-ltsc2016"
+    },
     {
       "name": "4.7.1",
       "tag": "4.7.1-sdk-20181009-windowsservercore-ltsc2016"
+    },
+    {
+      "name": "3.5",
+      "tag": "3.5-sdk-20181009-windowsservercore-ltsc2016"
     }
   ]
 }
