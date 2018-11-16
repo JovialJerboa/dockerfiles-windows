@@ -7,8 +7,6 @@ variables:
 
 steps:
 - powershell: "pwd; Get-Variable"
-  inputs:
-    workingDirectory: $(Build.SourcesDirectory)\msbuild
   displayName: 'Testing some powershell...'
 
 - task: PowerShell@2
